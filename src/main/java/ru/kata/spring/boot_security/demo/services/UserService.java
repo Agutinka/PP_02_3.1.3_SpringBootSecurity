@@ -17,7 +17,7 @@ public interface UserService extends UserDetailsService {
     void deleteById(Long id);
 
     void update(User user);
-    void createAdmin(String username, String password);
+
     @Override
-    UserDetails loadUserByUsername(String s) throws UsernameNotFoundException;
+    UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 }

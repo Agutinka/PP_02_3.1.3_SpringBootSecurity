@@ -29,30 +29,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.userService = userService;
     }
 
-//    // аутентификация inMemory
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username("user")
-//                        .password("user")
-//                        .roles("USER")
-//                        .build();
-//
-//        return new InMemoryUserDetailsManager(user);
-//    }
-
+    @Bean
+    @Override
+    public UserDetailsService userDetailsService() {
+        return userService;
+    }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
         daoAuthenticationProvider.setUserDetailsService(userService);
         return daoAuthenticationProvider;
     }
@@ -66,9 +57,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()  // Отключение CSRF защиты
                 .authorizeRequests()  // Настройка правил авторизации
-                .antMatchers("/", "/index", "login").permitAll()  // Разрешение доступа без аутентификации
-                .antMatchers("/admin/**").hasAuthority("ADMIN")  // для доступа к путям, начинающимся с /admin/, должна быть роль ADMIN
-                .antMatchers("/user/**").hasAnyAuthority("ADMIN","USER")  // для доступа к путям, начинающимся с /user/, должна быть роль ADMIN или USER
+                .antMatchers("/", "/index", "/login").hasAnyRole("ADMIN", "USER")  // Разрешение доступа без аутентификации
+                .antMatchers("/user", "/logout").hasRole("USER")  // для доступа к этим путям должна быть роль USER
+                .antMatchers("/admin", "/create", "/edit", "/delete", "/user", "/logout").hasRole("ADMIN")  // для доступа к этим путям должна быть роль ADMIN
                 .and()  // Завершение настройки для authorizeRequests
                 .formLogin()  // Включение формы для аутентификации
                 .loginPage("/login")  // Указание страницы с формой входа
@@ -78,12 +69,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/logout").permitAll()  // Указание URL для выполнения выхода с доступом для всех пользователей
                 .logoutSuccessUrl("/login");  // Установка URL для переадресации после успешного выхода
     }
-
-
-    @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-        return userService;
-    }
-
 }

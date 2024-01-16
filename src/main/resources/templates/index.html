@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>Spring Security Example</title>
 </head>
@@ -8,6 +10,34 @@
 <form th:action="@{/login}" th:method="Post">
     <button type="submit">Авторизоваться</button>
 </form>
+<br/>
+<hr/>
+<sec:authorize access="hasRole('ROLE_USER')">
+    <form th:action="@{/user}" method="post">
+        <button type="submit">Перейти в свой профиль</button>
+    </form>
+</sec:authorize>
 
+
+<sec:authorize access="hasRole('ROLE_ADMIN')">
+    <form th:action="@{/create}" th:method="Post">
+        <button type="submit">Создать нового пользователя</button>
+    </form>
+    <br/>
+    <form th:action="@{/edit}" th:method="Post">
+        <button type="submit">Редактировать существующего пользователя</button>
+    </form>
+    <br/>
+    <form th:action="@{/admin/users(id=${user.id})}" th:method="Post" class="delete-form">
+        <button type="submit">Удалить существующего пользователя</button>
+    </form>
+    Только для админа
+</sec:authorize>
+
+
+
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Log out</button>
+</form>
 </body>
 </html>
