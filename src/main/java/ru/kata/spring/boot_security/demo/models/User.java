@@ -5,8 +5,10 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,19 +17,20 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
+@Setter
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
 
-    @Setter
     @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Setter
     @Column(name = "username")
     private String username;
 
@@ -35,22 +38,21 @@ public class User implements UserDetails {
     @Column(name = "age")
     private int age;
 
-    @Setter
     @Column(name = "password")
     private String password;
 
-    @Setter
     @Getter
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-
     public User() {
     }
 
-    public User(String username, int age, String password, Set<Role> roles) {
+    public User(Long id, String username, int age, String password, Set<Role> roles) {
+        this.id = id;
         this.username = username;
         this.age = age;
         this.password = password;
@@ -92,7 +94,13 @@ public class User implements UserDetails {
         return password;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", age=" + age +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

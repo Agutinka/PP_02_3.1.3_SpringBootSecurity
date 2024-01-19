@@ -41,7 +41,8 @@
                 <input type="hidden" name="id" th:value="${user.getId()}" />
                 <input class="btn btn-primary" type="submit" value="Edit" />
             </a>
-            <form th:method="post" th:action="@{/admin/users(id=${user.id})}" class="delete-form">
+            <form th:method="post" th:action="@{/admin/delete(id=${user.getId()})}" class="delete-form">
+                <input type="hidden" name="id" th:value="${user.getId()}" />
                 <input class="btn btn-danger" type="submit" value="Delete" />
             </form>
         </td>

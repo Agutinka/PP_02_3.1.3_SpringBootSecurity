@@ -1,12 +1,18 @@
 package ru.kata.spring.boot_security.demo.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -15,15 +21,27 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
+
+//    @ManyToMany(mappedBy = "roles")
+@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+        CascadeType.REFRESH, CascadeType.DETACH})
+@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "role_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users;
 
     public Role() {
+    }
+
+    public Role(Long id, String name, Set<User> users) {
+        this.id = id;
+        this.name = name;
+        this.users = users;
     }
 
     public Long getId() {
@@ -55,7 +73,6 @@ public class Role {
         return "Role{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", users=" + users +
                 '}';
     }
 }

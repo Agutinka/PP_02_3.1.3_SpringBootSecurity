@@ -12,7 +12,7 @@ import ru.kata.spring.boot_security.demo.services.UserService;
 import java.security.Principal;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("")
 public class UserController {
 
     private final UserService userService;

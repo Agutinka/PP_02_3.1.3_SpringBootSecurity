@@ -51,16 +51,13 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void save(User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        Set<Role> roles = new HashSet<>();
-        roles.add(roleRepository.getOne(1L));
-        user.setRoles(roles);
         userRepository.save(user);
     }
 
     @Override
     @Transactional
     public void deleteById(Long id) {
+        userRepository.getById(id);
         userRepository.deleteById(id);
     }
 
@@ -69,18 +66,10 @@ public class UserServiceImpl implements UserService {
     public void update(User updatedUser) {
         User existingUser = userRepository.getById(updatedUser.getId());
         existingUser.setUsername(updatedUser.getUsername());
+        existingUser.setAge(updatedUser.getAge());
         existingUser.setRoles(updatedUser.getRoles());
         userRepository.save(existingUser);
     }
-
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        User user = findUserByUsername(username);
-//        if (user == null) {
-//            throw new UsernameNotFoundException("User " + username + " not found exception");
-//        }
-//        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), user.getAuthorities());
-//    }
 
     @Override
     @Transactional(readOnly = true)
