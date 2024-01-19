@@ -13,11 +13,17 @@
     <label for="username"> Введите имя:  </label>
     <input type="text" id="username" name="username" th:field="*{username}"/>
 
+    <label for="secondname"> Введите фамилию: </label>
+    <input type="text" id="secondname" name="secondname" th:field="*{secondname}"/>
+
     <label for="password"> Введите пароль: </label>
     <input type="text" id="password" name="password" th:field="*{password}"/>
 
     <label for="age"> Введите возраст: </label>
     <input type="text" id="age" name="age" th:field="*{age}"/>
+
+    <label for="email"> Введите электронную почту: </label>
+    <input type="text" id="email" name="email" th:field="*{email}"/>
     <br/>
     <label>Назначить роль:
         <input type="checkbox" name="roles"

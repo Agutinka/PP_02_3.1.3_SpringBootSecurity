@@ -22,9 +22,7 @@
     <thead>
     <tr>
         <th>Username</th>
-        <th>Secondname</th>
         <th>Age</th>
-        <th>Email</th>
         <th>Role</th>
         <th>Actions</th>
     </tr>
@@ -32,9 +30,7 @@
     <tbody>
     <tr th:each="user : ${usersList}">
         <td th:text="${user.getUsername()}"></td>
-        <td th:text="${user.getSecondname()}"></td>
         <td th:text="${user.getAge()}"></td>
-        <td th:text="${user.getEmail()}"></td>
         <td>
             <ul th:each="role:${user.getRoles()}">
                 <li th:text="${role.getName().replace('ROLE_', '') + ' '}"></li>
@@ -45,8 +41,7 @@
                 <input type="hidden" name="id" th:value="${user.getId()}" />
                 <input class="btn btn-primary" type="submit" value="Edit" />
             </a>
-            <form th:method="post" th:action="@{/admin/delete(id=${user.getId()})}" class="delete-form">
-                <input type="hidden" name="id" th:value="${user.getId()}" />
+            <form th:method="post" th:action="@{/admin/users(id=${user.id})}" class="delete-form">
                 <input class="btn btn-danger" type="submit" value="Delete" />
             </form>
         </td>

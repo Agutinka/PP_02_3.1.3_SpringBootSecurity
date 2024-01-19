@@ -23,7 +23,7 @@ public class UserController {
 
     }
 
-    @GetMapping(value = "")
+    @GetMapping(value = "/user")
     public String show(ModelMap modelMap, Principal principal) {
         User user = userService.findUserByUsername(principal.getName());
         modelMap.addAttribute("user", user);
@@ -39,10 +39,4 @@ public class UserController {
 
         return "login";
     }
-
-//    @PostMapping("/logout")
-//    public String logout(HttpServletRequest request) {
-//        new SecurityContextLogoutHandler().logout(request, null, null);
-//        return "redirect:/login?logout";
-//    }
 }

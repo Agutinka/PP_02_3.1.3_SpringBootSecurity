@@ -57,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()  // Отключение CSRF защиты
                 .authorizeRequests()  // Настройка правил авторизации
-                .antMatchers("/", "/index", "/login").hasAnyRole("ADMIN", "USER")  // Разрешение доступа без аутентификации
+                .antMatchers("/", "/login").hasAnyRole("ADMIN", "USER")  // Разрешение доступа без аутентификации
                 .antMatchers("/user", "/logout").hasRole("USER")  // для доступа к этим путям должна быть роль USER
                 .antMatchers("/admin", "/create", "/edit", "/delete", "/user", "/logout").hasRole("ADMIN")  // для доступа к этим путям должна быть роль ADMIN
                 .and()  // Завершение настройки для authorizeRequests

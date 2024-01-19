@@ -34,9 +34,20 @@ public class User implements UserDetails {
     @Column(name = "username")
     private String username;
 
+    @Setter
+    @Getter
+    @Column(name = "secondname")
+    private String secondname;
+
+    @Setter
     @Getter
     @Column(name = "age")
     private int age;
+
+    @Setter
+    @Getter
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "password")
     private String password;
@@ -51,10 +62,12 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(Long id, String username, int age, String password, Set<Role> roles) {
+    public User(Long id, String username, String secondname, int age, String email, String password, Set<Role> roles) {
         this.id = id;
         this.username = username;
+        this.secondname = secondname;
         this.age = age;
+        this.email = email;
         this.password = password;
         this.roles = roles;
     }
@@ -99,7 +112,9 @@ public class User implements UserDetails {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
+                ", secondname='" + secondname + '\'' +
                 ", age=" + age +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }

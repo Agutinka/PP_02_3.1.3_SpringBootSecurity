@@ -4,17 +4,23 @@
     <title>Spring Security Example</title>
 </head>
 <body>
-<h1>User, welcome spring boot security page!</h1>
-<h1>Welcome to your profile! </h1>
+<h1>User information page</h1>
+<br/>
 <table th:border="1" th:cellpadding="5">
     <tr>
-        <th>Username</th>
-        <th>age</th>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Age</th>
+        <th>Email</th>
         <th>Role</th>
     </tr>
-    <tr th:each="user : ${user}">
-        <td th:text="${user.username}">username</td>
-        <td th:text="${user.age}">age</td>
+    <tr>
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.secondname}"></td>
+        <td th:text="${user.age}"></td>
+        <td th:text="${user.email}"></td>
         <td>
             <ul th:each="role: ${user.getRoles()}" th:text="${role.getName().replace('ROLE_', '') + ' '}">role</ul>
         </td>

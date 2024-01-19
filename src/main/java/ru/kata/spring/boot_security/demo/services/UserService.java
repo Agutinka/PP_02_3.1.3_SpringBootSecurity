@@ -15,12 +15,10 @@ public interface UserService extends UserDetailsService {
 
     void save(User user);
 
-
     void deleteById(Long id);
 
     void update(User user);
 
-//    void addRoleToUser(Role role);
     @Override
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 }
